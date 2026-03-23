@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Código - TicoAutos</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-visual">
+            <div class="visual-content">
+                <h2>Verifica tu identidad.</h2>
+                <p>Por seguridad, hemos enviado un código de confirmación a tu correo electrónico. Ingrésalo para
+                    continuar.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-side" style="position: relative;">
+            <a href="/login" class="back-home-btn"><i class="fas fa-arrow-left"></i> Volver al ingreso</a>
+            <div class="form-container">
+                <h1>Código de Verificación</h1>
+                <p class="subtitle">Ingresa los 6 dígitos enviados a tu cuenta</p>
+
+                <form id="verify-form">
+                    <div class="code-container">
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="\d" required>
+                    </div>
+
+                    <button type="submit" class="btn">Confirmar y Acceder</button>
+                    
+                    <p class="resend-text">
+                        ¿No recibiste el código? <span class="resend-link">Reenviar código</span>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/phone-verification.js"></script>
+</body>
+
+</html>

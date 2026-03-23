@@ -8,7 +8,7 @@ import {
     fetchChatByVehicleAndClient,
     sendInboxMessage,
     getUserNameById
-} from './homeLogic.js';
+} from './home-logic.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const filterForm = document.getElementById('filter-form');

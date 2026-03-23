@@ -14,6 +14,14 @@ app.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "register.html"));
 });
 
+app.get("/phone-verification", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "phone-verification.html"));
+});
+
+app.get("/email-verification", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "email-verification.html"));
+});
+
 app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "home.html"));
 });

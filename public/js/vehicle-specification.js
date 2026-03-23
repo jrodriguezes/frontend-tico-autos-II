@@ -5,7 +5,7 @@ import {
     getCurrentChat,
     sendMessageToBackend,
     getUserNameById
-} from './vehicleSpecificationLogic.js';
+} from './vehicle-specification-logic.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);

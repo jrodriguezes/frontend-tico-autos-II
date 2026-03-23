@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Cuenta - TicoAutos</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/email-verification.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-visual">
+            <div class="visual-content">
+                <h2>Casi listo.</h2>
+                <p>Tu seguridad es nuestra prioridad. Verifica el estado de tu cuenta para acceder a todas las funciones de TicoAutos.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-side">
+            <a href="/home" class="back-home-btn"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            <div class="form-container">
+                <h1>Verificación de Correo</h1>
+                <p class="subtitle">Haz clic en el botón para verificar el estado actual de tu cuenta</p>
+
+                <div class="status-card" id="status-card">
+                    <div id="status-icon"></div>
+                    <h3 id="status-title"></h3>
+                    <p id="status-message"></p>
+                </div>
+
+                <div id="verify-section">
+                    <div class="info-box">
+                         <i class="fas fa-envelope-open-text"></i>
+                         <p>¿Has confirmado tu correo electrónico?</p>
+                    </div>
+                    <button id="check-status-btn" class="btn">Verificar Estado de Mi Cuenta</button>
+                    <p class="resend-text">
+                        Si no has recibido nada, <span class="resend-link">podemos reenviar el enlace</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/email-verification.js"></script>
+</body>
+
+</html>

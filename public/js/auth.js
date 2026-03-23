@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok && data.access_token) {
                     // Guardar el token para futuras peticiones
                     sessionStorage.setItem('token', data.access_token);
-                    window.location.href = "/home";
+                    window.location.href = "/verify";
                 } else {
                     alert(data.message || "Error al iniciar sesión: Credenciales inválidas");
                 }
@@ -39,6 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Error de conexión con el servidor");
             }
 
+        });
+    }
+
+    // Manejar botones sociales
+    const googleBtn = document.querySelector('.btn-google');
+    const facebookBtn = document.querySelector('.btn-facebook');
+
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            alert('Redirigiendo a Google OAuth 2.0...');
+            // Aquí iría window.location.href = "URL_DE_AUTH_GOOGLE";
+        });
+    }
+
+    if (facebookBtn) {
+        facebookBtn.addEventListener('click', () => {
+            alert('Redirigiendo a Facebook OAuth 2.0...');
         });
     }
 
