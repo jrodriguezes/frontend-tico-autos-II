@@ -1,4 +1,3 @@
-// stock.js
 document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // 1) Referencias al DOM
