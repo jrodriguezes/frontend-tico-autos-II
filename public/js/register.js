@@ -58,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            console.log('Register attempt:', { numberId, name, lastName1, lastName2, email, phone, password });
-
             try {
                 const response = await fetch('http://localhost:3000/users', {
                     method: 'POST',
@@ -71,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         name,
                         fLastName,
                         sLastName,
-                        mail,
+                        email: mail,
                         phoneNumber,
                         password
                     })
@@ -80,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    window.location.href = "/login";
+                    window.location.href = "/check-email";
                 } else {
                     alert(data.message || "Error al registrar el usuario");
                 }
