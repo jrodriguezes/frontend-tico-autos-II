@@ -1,3 +1,5 @@
+import { verifyAccount } from './email-verification-logic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const checkStatusBtn = document.getElementById('check-status-btn');
     const verifySection = document.getElementById('verify-section');
@@ -6,6 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTitle = document.getElementById('status-title');
     const statusMessage = document.getElementById('status-message');
 
+    const url = new URLSearchParams(window.location.search);
+    const token = url.get('token');
+    const id = url.get('id');
+
+    if (!token || !id) {
+        window.location.href = "/login";
+        return;
+    }
+
     if (checkStatusBtn) {
         checkStatusBtn.addEventListener('click', async () => {
             // Animación de carga en el botón
@@ -13,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
             checkStatusBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
             checkStatusBtn.disabled = true;
 
-            // Simulamos una demora de verificación al backend
+            const isVerified = await verifyAccount(token, id);
+
+            // Simulamos una demora de verificación al backend para que el usuario aprecie el estado
             setTimeout(() => {
-                // Aquí el backend respondería con el estado
-                // Vamos a simular que el correo ha sido verificado (puede ajustarse para pruebas)
-                showAccountStatus(true);
-            }, 2000);
+                showAccountStatus(isVerified);
+            }, 1000);
         });
     }
 
@@ -30,10 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
             statusIcon.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981;"></i>';
             statusTitle.innerText = "¡Todo en orden!";
             statusMessage.innerText = "Tu cuenta ha sido verificada satisfactoriamente. Ahora puedes disfrutar de todos los servicios de TicoAutos.";
-            
+
             // Reemplazar botón por botón de acceso
             const accessBtn = document.createElement('button');
-            accessBtn.innerText = "Ir al Inicio";
+            accessBtn.innerText = "Ir al inicio";
             accessBtn.className = "btn";
             accessBtn.style.marginTop = "2rem";
             accessBtn.onclick = () => window.location.href = "/home";
@@ -41,21 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             statusIcon.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>';
             statusTitle.innerText = "Pendiente de Verificación";
-            statusMessage.innerText = "Aún no hemos confirmado tu correo electrónico. Por favor, revisa tu bandeja de entrada o solicita un nuevo enlace.";
-            
-            const retryBtn = document.createElement('button');
-            retryBtn.innerText = "Intentar de Nuevo";
-            retryBtn.className = "btn";
-            retryBtn.style.marginTop = "2rem";
-            retryBtn.onclick = () => window.location.reload();
-            statusCard.appendChild(retryBtn);
+            statusMessage.innerText = "No se ha confirmado tu correo electrónico. Verifica si tu cuenta ya ha sido verificada o el link no coincide con tu cuenta.";
         }
-    }
-
-    const resendLink = document.querySelector('.resend-link');
-    if (resendLink) {
-        resendLink.addEventListener('click', () => {
-            alert('Se ha enviado un nuevo enlace de verificación a su correo electrónico.');
-        });
     }
 });
