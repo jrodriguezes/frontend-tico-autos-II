@@ -22,6 +22,10 @@ app.get("/email-verification", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "email-verification.html"));
 });
 
+app.get("/check-email", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "check-email.html"));
+});
+
 app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "home.html"));
 });
@@ -33,6 +37,10 @@ app.get("/stock", (req, res) => {
 app.get('/specification', (req, res) => {
     res.sendFile(path.join(__dirname, "views", "specification.html"));
 })
+
+app.get("/google-complete", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "google-complete.html"));
+});
 
 app.listen(3001, () => {
     console.log("Server is running on port 3001");

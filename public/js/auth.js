@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const numberId = document.getElementById('numberId').value;
+            const identifier = document.getElementById('identifier').value.trim();
             const password = document.getElementById('password').value;
 
-            console.log('Login attempt:', { numberId, password });
-
             // Basic validation
-            if (!numberId || !password) {
+            if (!identifier || !password) {
                 alert('Por favor complete todos los campos');
                 return;
             }
@@ -22,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ numberId: Number(numberId), password })
+                    body: JSON.stringify({ identifier, password })
                 });
 
                 const data = await response.json();
@@ -30,12 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok && data.access_token) {
                     // Guardar el token para futuras peticiones
                     sessionStorage.setItem('token', data.access_token);
-                    window.location.href = "/verify";
+                    window.location.href = "/home";
                 } else {
                     alert(data.message || "Error al iniciar sesión: Credenciales inválidas");
                 }
             } catch (error) {
-                console.error('Login error:', error);
                 alert("Error de conexión con el servidor");
             }
 
@@ -44,18 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Manejar botones sociales
     const googleBtn = document.querySelector('.btn-google');
-    const facebookBtn = document.querySelector('.btn-facebook');
 
     if (googleBtn) {
         googleBtn.addEventListener('click', () => {
-            alert('Redirigiendo a Google OAuth 2.0...');
-            // Aquí iría window.location.href = "URL_DE_AUTH_GOOGLE";
-        });
-    }
-
-    if (facebookBtn) {
-        facebookBtn.addEventListener('click', () => {
-            alert('Redirigiendo a Facebook OAuth 2.0...');
+            window.location.href = "http://localhost:3000/auth/google";
         });
     }
 
