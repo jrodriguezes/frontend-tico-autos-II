@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar si venimos de un login exitoso con Google (el backend puede redirigir con el token en la URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token')
+
+    if (urlToken) {
+        sessionStorage.setItem('token', urlToken);
+        window.location.href = "/home";
+        return;
+    }
+
     const loginForm = document.getElementById('login-form');
 
     if (loginForm) {

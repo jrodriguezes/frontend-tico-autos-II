@@ -32,6 +32,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentFilters = null;
     let currentInboxChat = null;
 
+    // Obtener el token de sessionStorage o de la URL (para login con Google)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token')
+
+    if (urlToken) {
+        sessionStorage.setItem('token', urlToken);
+        // Limpiar la URL para que no se vea el token y evitar problemas al recargar
+        const cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+    }
+
     const token = sessionStorage.getItem('token');
     const currentUser = token ? await getCurrentUser() : null;
 
