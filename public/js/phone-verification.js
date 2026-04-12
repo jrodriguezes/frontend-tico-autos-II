@@ -1,3 +1,5 @@
+import { handlePhoneVerification } from './phone-verification-logic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const codeInputs = document.querySelectorAll('.code-input');
     const verifyForm = document.getElementById('verify-form');
@@ -15,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 codeInputs[index - 1].focus();
             }
         });
-        
+
         // Evitar el pegado de cualquier cosa que no sea números
         input.addEventListener('paste', (e) => {
             e.preventDefault();
@@ -34,39 +36,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Validar que exista el ID de usuario para 2FA, si no, redirigir al login
+    if (!sessionStorage.getItem('twoFactorUserId')) {
+        window.location.href = "/login";
+        return;
+    }
+
     if (verifyForm) {
         verifyForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             let code = "";
             codeInputs.forEach(input => code += input.value);
 
             if (code.length === 6) {
-                console.log('Verificando código:', code);
-                
-                // Animación de carga en el botón
+                // Animación de carga en el boton
                 const btn = verifyForm.querySelector('.btn');
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
                 btn.disabled = true;
 
-                // Simulamos una demora de verificación
-                setTimeout(() => {
-                    // Por ahora, aceptamos cualquier código de 6 dígitos
-                    // En el futuro, aquí se haría un fetch al backend para validar el código.
-                    window.location.href = "/home";
-                }, 1500);
+                // Llamar a la funcion de logica unificada
+                const result = await handlePhoneVerification(code);
 
+                if (result.success) {
+                    window.location.href = "/home";
+                } else {
+                    alert(result.message);
+                    // Restaurar boton si falla
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
             } else {
                 alert('Por favor ingrese el código de 6 dígitos');
             }
         });
     }
 
-    const resendLink = document.querySelector('.resend-link');
-    if (resendLink) {
-        resendLink.addEventListener('click', () => {
-            alert('Se ha enviado un nuevo código a su correo electrónico.');
-        });
-    }
 });
