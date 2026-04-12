@@ -49,7 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const fLastName = document.getElementById('lastName1').value;
             const sLastName = document.getElementById('lastName2').value;
             const mail = document.getElementById('email').value;
-            const phoneNumber = document.getElementById('phone').value;
+            let phoneNumber = document.getElementById('phone').value;
+
+            // quitar espacios por si acaso
+            phoneNumber = phoneNumber.replace(/\s+/g, '');
+            if (!phoneNumber.startsWith('+506')) {
+                phoneNumber = `+506${phoneNumber}`;
+            }
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
