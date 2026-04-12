@@ -38,9 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Guardar el token para futuras peticiones
                     sessionStorage.setItem('token', data.access_token);
                     window.location.href = "/home";
-                } else {
-                    alert(data.message || "Error al iniciar sesión: Credenciales inválidas");
+                    return;
                 }
+
+                if (response.ok && data.requiresTwoFactor) {
+                    sessionStorage.setItem('twoFactorUserId', data.userId);
+                    window.location.href = "/phone-verification";
+                    return;
+                }
+                alert(data.message || "Error al iniciar sesión: Credenciales inválidas");
+
             } catch (error) {
                 alert("Error de conexión con el servidor");
             }
