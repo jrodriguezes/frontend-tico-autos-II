@@ -1,24 +1,18 @@
 const API_URL = 'http://localhost:3000';
+const GRAPHQL_URL = `${API_URL}/graphql`;
 
-function buildVehicleUrl(filters = null, page = 1, limit = 8) {
-    if (!filters) {
-        return `${API_URL}/vehicles?page=${page}&limit=${limit}`;
-    }
-
-    const params = new URLSearchParams();
-
-    if (filters.brand) params.append('brand', filters.brand);
-    if (filters.model) params.append('model', filters.model);
-    if (filters.minYear) params.append('minYear', filters.minYear);
-    if (filters.maxYear) params.append('maxYear', filters.maxYear);
-    if (filters.minPrice) params.append('minPrice', filters.minPrice);
-    if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-    if (filters.status) params.append('status', filters.status);
-
-    params.append('page', page);
-    params.append('limit', limit);
-
-    return `${API_URL}/vehicles?${params.toString()}`;
+function normalizeVehicleFilters(filters = null, page = 1, limit = 8) {
+    return {
+        brand: filters?.brand || null,
+        model: filters?.model || null,
+        minYear: filters?.minYear ? Number(filters.minYear) : null,
+        maxYear: filters?.maxYear ? Number(filters.maxYear) : null,
+        minPrice: filters?.minPrice ? Number(filters.minPrice) : null,
+        maxPrice: filters?.maxPrice ? Number(filters.maxPrice) : null,
+        status: filters?.status || null,
+        page,
+        limit,
+    };
 }
 
 export function getFiltersFromForm(formElement) {
@@ -36,20 +30,55 @@ export function getFiltersFromForm(formElement) {
 }
 
 export async function fetchVehicles(filters = null, page = 1, limit = 8) {
-    const url = buildVehicleUrl(filters, page, limit);
+    const query = `
+    query GetFilteredVehicles($filters: VehicleFiltersInput) {
+        filteredVehicles(filters: $filters) {
+            total
+            page
+            limit
+            totalPages
+            data {
+                _id
+                ownerId
+                brand
+                model
+                year
+                price
+                mileage
+                status
+                observations
+                plateId
+                imageUrl
+            }
+        }
+    }
+    `
 
-    const response = await fetch(url, {
-        method: 'GET',
+    const response = await fetch(GRAPHQL_URL, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({
+            query,
+            variables: {
+                filters: normalizeVehicleFilters(filters, page, limit),
+            },
+        }),
+
     });
+
+    const result = await response.json();
 
     if (!response.ok) {
         throw new Error('Error al cargar vehículos');
     }
 
-    return await response.json();
+    if (result.errors) {
+        throw new Error(result.errors[0]?.message || 'Error en GraphQL');
+    }
+
+    return result.data.filteredVehicles;
 }
 
 export function resolveVehicleImage(imagePath) {
@@ -76,9 +105,19 @@ export async function getCurrentUser() {
         });
 
         if (!response.ok) return null;
-        return await response.json();
+        let data = await response.json();
+
+        // Parche: Si el backend no envia el nombre pero tenemos el ID, lo buscamos
+        if (data && !data.name && data.numberId) {
+            const userData = await getUserNameById(data.numberId);
+            if (userData && userData.name) {
+                data.name = userData.name;
+            } else if (typeof userData === 'string') {
+                data.name = userData;
+            }
+        }
+        return data;
     } catch (error) {
-        console.error('Error obteniendo usuario actual:', error);
         return null;
     }
 }
