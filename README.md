@@ -1,107 +1,67 @@
-# TicoAutos - Frontend Application
+# TicoAutos - Frontend 🚗
 
-## Descripción del Proyecto
-TicoAutos es una plataforma web moderna para la publicación, consulta y gestión de vehículos en venta. Este repositorio contiene el **Frontend**, una aplicación cliente desacoplada que se comunica con una API REST para gestionar el inventario de automóviles, usuarios y sistemas de mensajería.
+Plataforma Web para la publicación, consulta y compra/venta de automóviles, diseñada bajo una Arquitectura Orientada a Servicios (SOA). Esta aplicación cliente consume tanto una API REST como un servicio GraphQL proporcionado por el backend para una experiencia de usuario rápida y fluida.
 
----
-
-## Información Académica
-*   **Institución:** Universidad Técnica Nacional (UTN)
-*   **Carrera:** Ingeniería del Software
-*   **Curso:** Programación en Ambiente Web II (ISW-711)
-*   **Profesor:** Bladimir Arroyo
-*   **Entrega:** Proyecto Final - Marzo 2026
+Este proyecto fue desarrollado como Proyecto Final para el curso **Programación en Ambiente Web II** (ISW-711) de la Universidad Técnica Nacional (UTN).
 
 ---
 
-## Características Principales
+## 📋 Requerimientos Implementados
 
-### Funcionalidades Públicas (Usuarios no autenticados)
-*   **Registro e Inicio de Sesión:** Gestión de cuentas de usuario mediante JWT.
-*   **Búsqueda Avanzada:** Filtrado dinámico por marca, modelo, rango de años, rango de precios y estado (disponible/vendido) conectado directamente al Backend.
-*   **Paginación de Resultados:** Navegación optimizada para grandes volúmenes de datos.
-*   **Detalle del Vehículo:** Consulta completa de especificaciones técnica e información del vendedor.
-*   **Compartir Vehículo:** Generación de enlaces públicos únicos y botón de copiado rápido al portapapeles.
+El frontend interactúa con las siguientes funcionalidades principales expuestas por la API:
 
-### Funcionalidades Privadas (Usuarios autenticados)
-*   **Gestión de Inventario (Stock):** Panel para Crear, Editar y Eliminar publicaciones de vehículos propios.
-*   **Subida de Imágenes:** Soporte para carga de archivos multimedia mediante Multer en el Backend.
-*   **Panel de Mensajería (Inbox):** 
-    *   **Clientes:** Realizar preguntas a los propietarios y ver historial.
-    *   **Propietarios:** Responder preguntas, ver todas las consultas asociadas a sus vehículos y gestionar flujos de conversación.
-*   **Reglas de Negocio en Chat:** Control de turnos (cliente/vendedor) y persistencia de mensajes.
+1.  **Validación de Identidad y Mayoría de Edad:** Integración de la UI para solicitar el número de cédula en el registro y auto-completar los datos personales del usuario comunicándose con la base de datos nacional (Padrón).
+2.  **Verificación de Correo Electrónico:** Flujo de validación que se encarga de mostrar estados correspondientes si el usuario intenta acceder sin activar su cuenta previamente por correo electrónico.
+3.  **Google OAuth2:** Integración completa de inicio de sesión de Google. Además, si es la primera vez que el usuario ingresa con Google, se solicita la validación de cédula y mayoría de edad antes de completar su registro.
+4.  **Autenticación de Dos Factores (2FA):** Desarrollo de interfaces de verificación para pedir al usuario ingresar el código de 6 dígitos que se le envió vía SMS, requerido en inicios de sesión por correo y contraseña.
+5.  **Consultas Optimizadas con GraphQL:** Migración de llamadas REST hacia GraphQL en áreas críticas como las especificaciones detalladas del vehículo (`vehicle-specification`), compartiendo la misma estructura de autenticación por tokens JWT.
+6.  **Chat en Tiempo Real Evaluado por IA:** Interfaz que notifica automáticamente a los usuarios si introdujeron datos personales en sus mensajes al negociar un auto, protegiéndose con la evaluación que el backend realiza en OpenAI.
 
 ---
 
-## Tecnologías Utilizadas
-*   **Lenguaje:** JavaScript (ES6+ Vanilla)
-*   **Estructura:** HTML5 Semántico
-*   **Estilos:** CSS3 Moderno (Variables, Flexbox, CSS Grid)
-*   **Iconografía:** FontAwesome
-*   **Fuente:** Google Fonts (Inter, Roboto)
-*   **Servidor de Desarrollo:** Node.js + Express (para servir archivos estáticos)
-*   **Autenticación:** JSON Web Tokens (JWT) almacenados en `sessionStorage`
+## 🛠 Tecnologías Utilizadas
+
+-   **JavaScript Vanilla (ES6+)**
+-   **HTML5 & CSS3 puro** (Diseño moderno, adaptativo y animado)
+-   **Vite** (Herramienta de compilación súper rápida y servidor de desarrollo)
+-   **Fetch API** (Para consumo asincrónico de servicios API REST y GraphQL)
+-   **SweetAlert2 / Toastify** (Para notificaciones elegantes de éxito, error y avisos del 2FA o IA)
 
 ---
 
-## Estructura del Proyecto
-```text
-/Frontend-Tico-Autos
-├── public/                # Carpeta raíz del servidor estático
-│   ├── css/               # Hojas de estilo estructuradas
-│   ├── js/                # Lógica del frontend dividida por módulos
-│   │   ├── auth.js        # Gestión de login
-│   │   ├── home.js        # Control de la vista principal y filtros
-│   │   ├── homeLogic.js   # Peticiones API para el Home
-│   │   ├── register.js    # Lógica de creación de cuentas
-│   │   ├── stock.js       # Gestión de inventario propio
-│   │   └── vehicleSpecification.js # Lógica de detalle y chat
-│   ├── views/             # Archivos HTML (Vistas)
-│   │   ├── home.html
-│   │   ├── login.html
-│   │   ├── register.html
-│   │   ├── specification.html
-│   │   └── stock.html
-│   ├── index.js           # Servidor Express básico
-│   └── package.json       # Configuración y dependencias
-└── README.md              # Documentación del proyecto
+## 🚀 Guía de Instalación y Ejecución Local
+
+Para levantar este proyecto en tu entorno local, sigue los siguientes pasos:
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/jrodriguezes/frontend-tico-autos-II.git
+cd frontend-tico-autos-II
 ```
 
----
+### 2. Instalar dependencias
+Esta aplicación utiliza `npm` para gestionar scripts y utilidades de entorno como Vite.
+```bash
+npm install
+```
 
-## Instalación y Ejecución
+### 3. Iniciar el Servidor de Desarrollo
+El comando `dev` arrancará el servidor local de Vite.
+```bash
+npm run dev
+```
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone [url-del-repositorio]
-    ```
-
-2.  **Navegar a la carpeta del frontend:**
-    ```bash
-    cd Frontend-Tico-Autos/public
-    ```
-
-3.  **Instalar dependencias:**
-    ```bash
-    npm install
-    ```
-
-4.  **Ejecutar el servidor local:**
-    ```bash
-    npm run dev
-    ```
-
-5.  **Acceder a la aplicación:**
-    Abra su navegador en [http://localhost:8080](http://localhost:8080) (o el puerto configurado en `index.js`).
-
-> [!IMPORTANT]
-> Asegúrese de que el **Backend-Tico-Autos** esté en ejecución simultáneamente para que la aplicación funcione correctamente, ya que el frontend consume la API ubicada por defecto en `http://localhost:3000`.
+La aplicación ahora estará disponible en tu navegador en `http://localhost:5173` (el puerto puede variar, revisar consola). Asegúrate de tener el Backend ejecutándose simultáneamente.
 
 ---
 
-## Diseño y UX
-Se ha priorizado una **estética premium**:
-*   Modo oscuro elegante con contrastes altos.
-*   Micro-animaciones y efectos hover interactivos en tarjetas de vehículos.
-*   Diseño Responsivo adaptado a dispositivos móviles y escritorio.
-*   Carga diferida (Loaders) para mejorar la percepción de velocidad en peticiones asíncronas.
+## 🏗 Arquitectura de Cliente
+
+El desarrollo del frontend respeta la separación de preocupaciones:
+-   `/public/css`: Estilos divididos modularmente manteniendo una filosofía utility-first hecha a mano.
+-   `/public/views`: Marcos estáticos HTML renderizados y manipulados desde JavaScript.
+-   `/public/js`: Separación estricta entre la interacción con el DOM (`archivo.js`) y la orquestación de consumo hacia el backend (`archivo-logic.js`), garantizando escalabilidad pura en Vanilla.
+
+---
+
+*Desarrollado para la Universidad Técnica Nacional - 2026*
