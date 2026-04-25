@@ -215,6 +215,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (authLink) authLink.style.display = 'none';
             if (registerLink) registerLink.style.display = 'none';
             if (userMenu) userMenu.style.display = 'flex';
+
+            if (currentUser && currentUser.name) {
+                const userNameDisplay = document.getElementById('user-name-display');
+                if (userNameDisplay) {
+                    const nameText = userNameDisplay.querySelector('.name-text');
+                    if (nameText) nameText.textContent = currentUser.name;
+                }
+            }
         }
 
         logoutBtn?.addEventListener('click', () => {

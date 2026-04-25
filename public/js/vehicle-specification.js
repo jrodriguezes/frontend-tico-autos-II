@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     renderVehicle(vehicle, userName);
-    setupNavbar(token);
+    setupNavbar(token, currentUser);
     setupLogout();
 
     if (currentUser && vehicle.ownerId === currentUser.numberId && contactBtn) {
@@ -203,7 +203,7 @@ function renderVehicle(vehicle, userName) {
     }
 }
 
-function setupNavbar(token) {
+function setupNavbar(token, currentUser) {
     const authLink = document.getElementById('auth-link');
     const registerLink = document.getElementById('register-link');
     const userMenu = document.getElementById('user-menu');
@@ -212,6 +212,14 @@ function setupNavbar(token) {
         if (authLink) authLink.style.display = 'none';
         if (registerLink) registerLink.style.display = 'none';
         if (userMenu) userMenu.style.display = 'flex';
+
+        if (currentUser && currentUser.name) {
+            const userNameDisplay = document.getElementById('user-name-display');
+            if (userNameDisplay) {
+                const nameText = userNameDisplay.querySelector('.name-text');
+                if (nameText) nameText.textContent = currentUser.name;
+            }
+        }
     }
 }
 

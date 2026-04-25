@@ -343,5 +343,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // 12) Init
   // =========================
-  loadVehicles();
+  async function init() {
+    await loadVehicles();
+
+    // Actualizar nombre de usuario en navbar
+    const currentUser = await window.stockLogic.getCurrentUser();
+    if (currentUser && currentUser.name) {
+      const userNameDisplay = document.getElementById('user-name-display');
+      if (userNameDisplay) {
+        const nameText = userNameDisplay.querySelector('.name-text');
+        if (nameText) nameText.textContent = currentUser.name;
+      }
+    }
+  }
+
+  init();
 });

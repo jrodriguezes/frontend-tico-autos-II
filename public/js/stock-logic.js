@@ -4,6 +4,27 @@ function getToken() {
   return sessionStorage.getItem("token");
 }
 
+async function getCurrentUser() {
+  const token = getToken();
+  if (!token) return null;
+
+  try {
+    const response = await fetch(`${API_URL}/auth/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.error('Error obteniendo usuario actual:', error);
+    return null;
+  }
+}
+
 async function request(url, options = {}) {
   const response = await fetch(url, options);
 
@@ -141,4 +162,5 @@ window.stockLogic = {
   changeVehicleStatus,
   deleteVehicleRequest,
   saveVehicle,
+  getCurrentUser,
 };
