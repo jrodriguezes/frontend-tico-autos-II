@@ -1,19 +1,52 @@
 const API_URL = 'http://localhost:3000';
+const GRAPH_URL = `${API_URL}/graphql`;
 
 export async function getVehicleById(id) {
+    const query = `
+    query GetVehicleById($id: String!) {
+    vehicle(id: $id) {
+        _id
+        ownerId
+        brand
+        model
+        price
+        year
+        mileage
+        plateId
+        observations
+        status
+        imageUrl
+        }
+    }
+    `
+
     try {
-        const response = await fetch(`${API_URL}/vehicles/specification/${id}`, {
-            method: 'GET',
+        const response = await fetch(`${GRAPH_URL}`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                query,
+                variables: {
+                    id
+                }
+            })
         });
+
+        const result = await response.json();
 
         if (!response.ok) {
             throw new Error(`Error en el servidor: ${response.status}`);
         }
 
-        return await response.json();
+
+        if (result.errors) {
+            throw new Error(result.errors[0]?.message || 'Error en GraphQL');
+        }
+
+        return result.data.vehicle;
+
     } catch (error) {
         console.error('Fetch error:', error);
         return null;
