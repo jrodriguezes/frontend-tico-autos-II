@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3000';
-const GRAPHQL_URL = `${API_URL}/graphql`;
+const GRAPHQL_URL = `http://localhost:3002/graphql`;
 
 function normalizeVehicleFilters(filters = null, page = 1, limit = 8) {
     return {

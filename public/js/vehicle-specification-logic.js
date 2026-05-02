@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3000';
-const GRAPH_URL = `${API_URL}/graphql`;
+const GRAPHQL_URL = `http://localhost:3002/graphql`;
 
 export async function getVehicleById(id) {
     const query = `
@@ -21,7 +21,7 @@ export async function getVehicleById(id) {
     `
 
     try {
-        const response = await fetch(`${GRAPH_URL}`, {
+        const response = await fetch(`${GRAPHQL_URL}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
