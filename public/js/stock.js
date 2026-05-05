@@ -294,7 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       window.location.reload();
     } catch (error) {
-      console.error(error);
       alert(error.message || "Hubo un error al cambiar el estado.");
     }
   };
@@ -307,7 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
       await window.stockLogic.deleteVehicleRequest(id);
       window.location.reload();
     } catch (error) {
-      console.error(error);
       alert(error.message || "Hubo un error al eliminar el vehículo.");
     }
   };
@@ -323,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
       await window.stockLogic.saveVehicle(formValues);
       window.location.reload();
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
       alert(error.message || "Error de conexión con el servidor");
     }
   });

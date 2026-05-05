@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(data.message || "Error al registrar el usuario");
                 }
             } catch (error) {
-                console.error('Error during registration:', error);
                 alert("Error de conexión con el servidor");
             }
         });

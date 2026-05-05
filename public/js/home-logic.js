@@ -107,9 +107,10 @@ export async function getCurrentUser() {
         if (!response.ok) return null;
         let data = await response.json();
 
-        // Parche: Si el backend no envia el nombre pero tenemos el ID, lo buscamos
+        // Si el backend no envia el nombre pero tenemos el ID, lo buscamos
         if (data && !data.name && data.numberId) {
             const userData = await getUserNameById(data.numberId);
+            
             if (userData && userData.name) {
                 data.name = userData.name;
             } else if (typeof userData === 'string') {

@@ -3,9 +3,8 @@ const API_URL = "http://localhost:3000";
 function getToken() {
   return sessionStorage.getItem("token");
 }
-
 async function getCurrentUser() {
-  const token = getToken();
+  const token = sessionStorage.getItem('token');
   if (!token) return null;
 
   try {
@@ -18,11 +17,41 @@ async function getCurrentUser() {
     });
 
     if (!response.ok) return null;
-    return await response.json();
+
+    let data = await response.json();
+
+    if (data && data.numberId) {
+      const userData = await getUserNameById(data.numberId);
+
+      if (userData && userData.name) {
+        data.name = userData.name;
+      }
+    }
+
+    return data;
   } catch (error) {
     console.error('Error obteniendo usuario actual:', error);
     return null;
   }
+}
+
+
+async function getUserNameById(id) {
+    try {
+        const response = await fetch(`${API_URL}/users/userNameById/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) return null;
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error obteniendo usuario:', error);
+        return null;
+    }
 }
 
 async function request(url, options = {}) {
