@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const chatMessages = document.getElementById('chat-messages');
 
     const token = sessionStorage.getItem('token');
-    const currentUser = await getCurrentUser();
+    const currentUser = token ? await getCurrentUser() : null;
+
     const vehicle = await getVehicleById(vehicleId);
     const userName = await getUserNameById(vehicle.ownerId);
 
@@ -71,16 +72,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             const text = chatInput.value.trim();
             if (text === '') return;
 
-            const response = await sendMessageToBackend({
-                vehicleId,
-                sellerId: document.getElementById('seller-id')?.textContent,
-                text
-            });
+            try {
+                const response = await sendMessageToBackend({
+                    vehicleId,
+                    sellerId: document.getElementById('seller-id')?.textContent,
+                    text
+                });
 
-            if (response) {
-                chatInput.value = '';
-                await renderChatHistory();
-                await updateChatAvailability();
+                if (response) {
+                    chatInput.value = '';
+                    await renderChatHistory();
+                    await updateChatAvailability();
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
             }
 
             chatMessages.scrollTop = chatMessages.scrollHeight;

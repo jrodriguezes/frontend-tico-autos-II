@@ -68,7 +68,17 @@ export async function getCurrentUser() {
 
         if (!response.ok) return null;
 
-        return await response.json();
+        let data = await response.json();
+
+        if (data && data.numberId) {
+            const userData = await getUserNameById(data.numberId);
+            
+            if (userData && userData.name) {
+                data.name = userData.name;
+            }
+        }
+
+        return data;
     } catch (error) {
         console.error('Error obteniendo usuario actual:', error);
         return null;
@@ -249,7 +259,6 @@ export async function sendMessageToBackend({ vehicleId, sellerId, text }) {
 
         return respText ? JSON.parse(respText) : {};
     } catch (error) {
-        console.error('Error enviando mensaje:', error);
-        return null;
+        throw error;
     }
 }
