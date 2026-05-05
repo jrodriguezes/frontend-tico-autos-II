@@ -64,4 +64,10 @@ El desarrollo del frontend respeta la separación de preocupaciones:
 
 ---
 
+## 🏗 Diagrama del sistema:
+
+<img width="1672" height="941" alt="ChatGPT Image May 4, 2026, 10_42_55 PM" src="https://github.com/user-attachments/assets/2d2f7dd6-f989-434c-947e-ee2ade64244e" />
+
+
+
 *Desarrollado para la Universidad Técnica Nacional - 2026*
